@@ -1,0 +1,119 @@
+{% load static %}
+{% load brand %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'static/style.css' %}">
+    <link rel="stylesheet" href="{% static 'static/bulma.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
+    <script type="module"
+            src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+<section class="hero">
+    <div class="hero-head">
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{% url "shop:products" %}">
+                    <img src="{% static 'uploads/monday.svg' %}" width="112" height="28">
+                </a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                   data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            {% if user.is_authenticated %}
+                <div class="navbar-menu" id="navbarMenuHeroC">
+                    {% brands %}
+                    <div class="navbar-end">
+                        <form action="{% url 'shop:products' %}" method="get">
+                            <div class="field has-addons mt-4 mr-2">
+                                <div class="control">
+                                    <input class="input" type="search" placeholder="Find a product" name="search">
+                                </div>
+                                <div class="control">
+                                    <button class="button is-info" type="submit">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="navbar-item">
+                            <div class="dropdown is-hoverable">
+                                <div class="dropdown-trigger">
+                                    <button class="button is-warning" aria-haspopup="true"
+                                            aria-controls="dropdown-menu">
+                                        Welcome: <span class="has-text-weight-bold mx-2">{{ user }}</span>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <a href="{% url 'users:edit_profile' %}" class="dropdown-item">
+                                            Edit profile
+                                        </a>
+                                        <a href="{% url 'users:reset_password' %}" class="dropdown-item">
+                                            Reset password
+                                        </a>
+                                        <hr class="dropdown-divider">
+                                        <a href="{% url 'users:sign_out' %}" class="dropdown-item">
+                                            Sign out
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="navbar-item mr-6">
+                            <div class="dropdown is-hoverable">
+                                <div class="dropdown-trigger">
+                                    <button class="button is-success" aria-haspopup="true"
+                                            aria-controls="dropdown-menu">
+                                        <ion-icon name="cart-outline"></ion-icon>
+                                        Cart
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <a href="{% url 'shop:cart' %}" class="dropdown-item">
+                                            Cart
+                                        </a>
+                                        <a href="{% url 'shop:orders' %}" class="dropdown-item">
+                                            Orders
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            {% endif %}
+        </nav>
+    </div>
+    <div class="hero-body">
+        {% block auth %}
+        {% endblock %}
+
+        {% block slider %}
+        {% endblock %}
+
+        {% block content %}
+        {% endblock %}
+    </div>
+</section>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js"></script>
+<script>
+    bulmaCarousel.attach('#carousel-demo', {
+        slidesToScroll: 1,
+        slidesToShow: 1,
+        infinite: true,
+    });
+</script>
+</html>
+

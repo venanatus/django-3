@@ -1,0 +1,45 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="card p-5">
+            <div class="content">
+                {% if orders %}
+                    <div class="title has-text-centered">My recent orders</div>
+                    <table class="table has-text-centered">
+                        <thead>
+                        <tr>
+                            <th>Order number</th>
+                            <th>Products</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Payed</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>{{ order }}</td>
+                                <td>
+                                    {% for order_product in order.order_products.all %}
+                                        <a href="{% url 'shop:product_detail' order_product.product.pk %}">
+                                            {{ order_product }}
+                                        </a>,
+                                    {% endfor %}
+                                </td>
+                                <td>{{ order.total_price }} sum</td>
+                                <td>Into consideration</td>
+                                <td>Not paid</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="title has-text-centered">Nothing ordered yet</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,67 @@
+{% extends 'base_layout.html' %}
+{% load category %}
+
+{% block slider %}
+    <div class="container-slide">
+        <div id="carousel-demo" class="carousel">
+            {% for slide in slides %}
+                <div class="item-1">
+                    <img class="slider-img" src="{{ slide.image.url }}" alt="">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="columns mt-2">
+        <div class="column is-one-fifth">
+            {% categories %}
+        </div>
+        <div class="column">
+            <div class="columns is-multiline is-centered">
+                {% for product in products %}
+                    <div class="column is-4">
+                        <div class="card product-card" style="min-height: 620px">
+                            <a href="{% url 'shop:product_detail' product.pk %}">
+                                <div class="card-image">
+                                    <figure class="image">
+                                        <img src="{{ product.thumb.url }}" alt="Placeholder image">
+                                    </figure>
+                                    <div class="has-text-right m-3">
+                                        {% if product.is_new %}
+                                            <span class="tag is-danger">New!</span>
+                                        {% endif %}
+                                        {% if product.is_discounted %}
+                                            <span class="tag is-primary">Discount!</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="card-content">
+                                <div class="media">
+                                    <br>
+                                    <div class="media-content">
+                                        <p class="title is-4">{{ product }}</p>
+                                    </div>
+                                </div>
+                                <div class="content has-text-weight-bold">
+                                    <div class="columns">
+                                        <div class="column">
+                                            {{ product.price }} sum
+                                        </div>
+                                        <div class="column has-text-right">
+                                            <a href="{% url 'shop:products' %}?product={{ product.pk }}" class="order">
+                                                <ion-icon name="cart-outline"></ion-icon>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
