@@ -16,7 +16,7 @@ def products(request):
 
     if product_id:
         product = Product.objects.get(pk=product_id)
-        cart_item = CartItem.objects.filter(product=product)
+        cart_item = CartItem.objects.filter(product=product, customer=request.user)
 
         if not cart_item:
             CartItem.objects.create(
@@ -25,6 +25,7 @@ def products(request):
                 quantity=1
             )
             return redirect('shop:products')
+
         for item in cart_item:
             item.quantity += 1
             item.save()
